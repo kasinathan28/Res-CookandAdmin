@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BASEURL } from "../../../../url/BaseUrl";
 import "./Orders.css";
+import io from 'socket.io-client';
+
 
 function Order() {
   const [orders, setOrders] = useState([]);
@@ -22,9 +24,7 @@ function Order() {
 
   const handleDeliver = async (orderId) => {
     try {
-      // Update the status of the food item to delivered
-      await axios.put(`${BASEURL}/orders/${orderId}`, { status: 'delivered' }); 
-      // Update the local state to reflect the change
+      await axios.put(`${BASEURL}/deliverfood/${orderId}`, { status: 'delivered' }); 
       setOrders((prevOrders) =>
         prevOrders.map((order) =>
           order._id === orderId ? { ...order, status: 'delivered' } : order
@@ -43,18 +43,19 @@ function Order() {
           <p>Table Number: {order.tableNumber}</p>
           <h3>Items:</h3>
           <ul>
-            {order.items.map((item) => ( // Changed 'cartItems' to 'items'
+            {order.items.map((item) => ( 
               <li key={item._id}>
                 {item.food} - Quantity: {item.quantity}
               </li>
             ))}
           </ul>
-          <p>Total Amount: {order.totalPrice}/-</p> {/* Changed 'totalAmount' to 'totalPrice' */}
+          <p>Total Amount: {order.totalPrice}/-</p> 
           {order.status !== 'delivered' && (
             <button onClick={() => handleDeliver(order._id)}>Mark as Delivered</button>
           )}
         </div>
       ))}
+      
     </div>
   );
 }
