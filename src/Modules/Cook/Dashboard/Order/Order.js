@@ -4,7 +4,7 @@ import { BASEURL } from "../../../../url/BaseUrl";
 import "./Orders.css";
 import io from 'socket.io-client';
 
-const socket = io('http://localhost:5000');
+const socket = io(BASEURL);
 
 function Order() {
   const [orders, setOrders] = useState([]);
