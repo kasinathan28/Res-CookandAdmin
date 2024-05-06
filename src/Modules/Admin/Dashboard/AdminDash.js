@@ -5,6 +5,7 @@ import HomePage from "../../../assets/Homepage.jpeg";
 
 import Cooks from '../Cooks/Cooks';
 import Payments from '../Payments/Payments';
+import Feedback from '../Feedback/Feedback';
 
 function AdminDash() {
   const [activeComponent, setActiveComponent] = useState('orders'); 
@@ -15,6 +16,7 @@ function AdminDash() {
       <Navbar setActiveComponent={setActiveComponent} /> 
       {activeComponent === 'cooks' && <Cooks/>}
       {activeComponent === 'payments' && <Payments/>} 
+      {activeComponent === 'feedbacks' && <Feedback/>} 
     </div>
   );
 }

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import "./Navbar.css";
 import { useLocation, useNavigate } from 'react-router-dom';
 
-function Navbar({ setActiveComponent }) { // Accept setActiveComponent as a prop
+function Navbar({ setActiveComponent }) { 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [activeComponent, setActiveComponentLocal] = useState('orders'); // Local state to manage active component
+  const [activeComponent, setActiveComponentLocal] = useState('orders'); 
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -21,13 +21,13 @@ function Navbar({ setActiveComponent }) { // Accept setActiveComponent as a prop
   };
 
   const switchComponent = (componentName) => {
-    setActiveComponentLocal(componentName); // Update local state
-    setActiveComponent(componentName); // Update parent state
+    setActiveComponentLocal(componentName); 
+    setActiveComponent(componentName); 
     setSidebarOpen(false); 
   };
 
   const handleLogout = () => {
-    navigate("/"); // Redirect to home page after logout
+    navigate("/"); 
   };
 
   return (
@@ -46,14 +46,15 @@ function Navbar({ setActiveComponent }) { // Accept setActiveComponent as a prop
         </div>
         <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
           <ul>
-            {location.pathname === '/adash' && ( // Render sidebar options only for '/adash' page
+            {location.pathname === '/adash' && ( 
               <>
                 <li className={`category-item ${activeComponent === 'payments' ? 'active' : ''}`} onClick={() => switchComponent('payments')}>Payments</li>
                 <li className={`category-item ${activeComponent === 'cooks' ? 'active' : ''}`} onClick={() => switchComponent('cooks')}>Cooks</li>
+                <li className={`category-item ${activeComponent === 'feedbacks' ? 'active' : ''}`} onClick={() => switchComponent('feedbacks')}>Feedbacks</li>
                 <li className="category-item" onClick={handleLogout}>Logout</li>
               </>
             )}
-            {location.pathname !== '/adash' && ( // Render default sidebar options for other pages
+            {location.pathname !== '/adash' && ( 
               <>
                 <li className={`category-item ${activeComponent === 'orders' ? 'active' : ''}`} onClick={() => switchComponent('orders')}>Orders</li>
                 <li className={`category-item ${activeComponent === 'availableFoods' ? 'active' : ''}`} onClick={() => switchComponent('availableFoods')}>Available Foods</li>
