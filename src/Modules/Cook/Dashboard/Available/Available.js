@@ -5,16 +5,16 @@ import { FaPlus, FaTimes, FaTrash } from "react-icons/fa";
 import { BASEURL, IMAGEURL } from "../../../../url/BaseUrl";
 
 function Available() {
-  // State variables to manage form fields, pop-up visibility, and available foods
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [category, setCategory] = useState("");
+  const [protein, setProtein] = useState(""); // New state variable for protein
+  const [calories, setCalories] = useState(""); // New state variable for calories
   const [image, setImage] = useState(null);
-  const [showPopup, setShowPopup] = useState(false); // State to manage pop-up visibility
+  const [showPopup, setShowPopup] = useState(false);
   const [foods, setFoods] = useState([]);
 
-  // Function to fetch available foods
   const fetchFoods = async () => {
     try {
       const response = await axios.get(`${BASEURL}/getFoods`);
@@ -37,6 +37,8 @@ function Available() {
       formData.append('description', description);
       formData.append('price', price);
       formData.append('category', category);
+      formData.append('protein', protein); // Append protein to form data
+      formData.append('calories', calories); // Append calories to form data
       formData.append('image', image);
 
       const response = await axios.post(
@@ -55,10 +57,11 @@ function Available() {
       setDescription("");
       setPrice("");
       setCategory("");
+      setProtein(""); // Reset protein field
+      setCalories(""); // Reset calories field
       setImage(null);
       setShowPopup(false);
 
-      // Fetch updated list of available foods
       fetchFoods();
     } catch (error) {
       console.error("Error adding food item:", error);
@@ -68,7 +71,7 @@ function Available() {
   const handleDelete = async (foodId) => {
     try {
       await axios.delete(`${BASEURL}/deleteFood/${foodId}`);
-      // Fetch updated list of available foods after deletion
+      
       fetchFoods();
     } catch (error) {
       console.error("Error deleting food item:", error);
@@ -132,6 +135,26 @@ function Available() {
               </select>
             </div>
             <div>
+              <label htmlFor="protein">Protein:</label>
+              <input
+                type="text"
+                id="protein"
+                value={protein}
+                onChange={(e) => setProtein(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="calories">Calories:</label>
+              <input
+                type="text"
+                id="calories"
+                value={calories}
+                onChange={(e) => setCalories(e.target.value)}
+                required
+              />
+            </div>
+            <div>
               <label htmlFor="image">Image:</label>
               <input
                 type="file"
@@ -154,11 +177,13 @@ function Available() {
                 <p>{food.description}</p>
                 <p>{food.price}/-</p>
                 <p>{food.category}</p>
+                <p>Protein: {food.protein}</p> {/* Display protein */}
+                <p>Calories: {food.calories}</p> {/* Display calories */}
                 <div className="delete-button">
-                <button onClick={() => handleDelete(food._id)}>
-                  <FaTrash /><p>Delete</p>
-                </button>
-              </div>
+                  <button onClick={() => handleDelete(food._id)}>
+                    <FaTrash /><p>Delete</p>
+                  </button>
+                </div>
               </div>
               <div className="food-image">
                 <img src={`${IMAGEURL}/${food.image}`} alt={food.name} />
